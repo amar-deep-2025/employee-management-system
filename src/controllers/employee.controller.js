@@ -1,4 +1,5 @@
 const employeeService = require("../services/employee.service");
+const response = require("../utils/apiResponse");
 
 exports.createEmployee = async (req, res) => {
   try {
@@ -16,15 +17,8 @@ exports.createEmployee = async (req, res) => {
 };
 
 exports.getEmployees = async (req, res) => {
-  try {
-    const employees = await employeeService.getEmployees();
-    return res.status(200).json(employees);
-  } catch (error) {
-    return res.status(500).json({
-      message: "Failed to fetch employees",
-      error: error.message,
-    });
-  }
+  const employee = await employeeService.getEmployees();
+  return response.success(res, "Employee fetched", employee);
 };
 
 exports.getEmployeeById = async (req, res) => {

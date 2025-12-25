@@ -8,6 +8,10 @@ const limiter = require("./middlewares/rateLimiter");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./docs/swagger");
 
+const authRoutes = require("./routes/auth.routes");
+
+const cookieParser = require("cookie-parser");
+
 const app = express();
 
 // ✅ Swagger docs
@@ -18,6 +22,12 @@ app.use(requestLogger);
 
 // ✅ Body parser
 app.use(express.json());
+
+//add cookie Parser
+app.use(cookieParser());
+
+//add auth routes
+app.use("/api/auth", authRoutes);
 
 // ✅ Rate limiter
 app.use("/api", limiter);

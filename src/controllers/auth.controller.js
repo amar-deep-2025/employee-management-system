@@ -22,7 +22,7 @@ exports.login = async (req, res, next) => {
       sameSite: "strict",
     });
 
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token: token });
   } catch (err) {
     next(err);
   }

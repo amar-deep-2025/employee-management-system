@@ -7,7 +7,7 @@ exports.createEmployee = async (req, res) => {
     return res.status(201).json({
       message: "Employee Created Successfully",
       data: employee,
-    }); 
+    });
   } catch (error) {
     return res.status(400).json({
       message: "Failed to create employee",

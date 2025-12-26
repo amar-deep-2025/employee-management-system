@@ -4,6 +4,7 @@ const router = express.Router();
 const controller = require("../controllers/employee.controller");
 const validate = require("../middlewares/validate");
 const validator = require("../validators/employee.validator");
+const auth = require("../middlewares/auth.middleware");
 
 /**
  * @swagger
@@ -23,17 +24,14 @@ router.get("/", controller.getEmployees);
  *   post:
  *     summary: Create a new employee
  *     tags: [Employees]
+ *     security:
+ *       - cookieAuth: []   # 🔐 TOKEN REQUIRED
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - name
- *               - email
- *               - department
- *               - designation
  *             properties:
  *               name:
  *                 type: string
@@ -45,15 +43,11 @@ router.get("/", controller.getEmployees);
  *                 type: string
  *     responses:
  *       201:
- *         description: Employee created successfully
+ *         description: Employee created
+ *       401:
+ *         description: Unauthorized
  */
-router.post(
-  "/",
-  validator.createEmployeeValidator,
-  validate,
-  controller.createEmployee
-);
-
+router.post("/", auth, validate, controller.createEmployee);
 /**
  * @swagger
  * /api/employees/{id}:
@@ -107,6 +101,7 @@ router.get("/:id", controller.getEmployeeById);
  */
 router.put(
   "/:id",
+  auth,
   validator.updateEmployeeValidator,
   validate,
   controller.updateEmployee
@@ -128,6 +123,6 @@ router.put(
  *       200:
  *         description: Employee deleted successfully
  */
-router.delete("/:id", controller.deleteEmployee);
+router.delete("/:id", auth, controller.deleteEmployee);
 
 module.exports = router;

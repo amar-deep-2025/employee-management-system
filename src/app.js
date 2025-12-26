@@ -1,6 +1,7 @@
 const express = require("express");
 
-const employeeRoute = require("./routes/employee.routes");
+const employeeRoutes = require("./routes/employee.routes");
+const userRoutes = require("./routes/user.routes");
 const errorHandler = require("./middlewares/errorHandler");
 const requestLogger = require("./middlewares/logger");
 const limiter = require("./middlewares/rateLimiter");
@@ -33,7 +34,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api", limiter);
 
 // ✅ Routes
-app.use("/api/employees", employeeRoute);
+app.use("/api/users", userRoutes);
+app.use("/api/employees", employeeRoutes);
 
 // ✅ Error handler (always last)
 app.use(errorHandler);

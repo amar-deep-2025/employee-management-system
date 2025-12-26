@@ -5,7 +5,7 @@ const { generateToken } = require("../utils/token");
 exports.register = async (req, res, next) => {
   try {
     const user = await authService.registerUser(req.body);
-    res.status(201).json({ message: "User registered ", user });
+    res.status(201).json({ message: "User registered ", role: user.role });
   } catch (err) {
     next(err);
   }

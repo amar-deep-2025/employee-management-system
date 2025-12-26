@@ -5,12 +5,13 @@ const controller = require("../controllers/employee.controller");
 const validate = require("../middlewares/validate");
 const validator = require("../validators/employee.validator");
 const auth = require("../middlewares/auth.middleware");
+const role = require("../middlewares/role.middleware");
 
 /**
  * @swagger
  * /api/employees:
  *   get:
- *     summary: Get all employees
+ *     summary: Get all employees (not require role)
  *     tags: [Employees]
  *     responses:
  *       200:
@@ -22,7 +23,7 @@ router.get("/", controller.getEmployees);
  * @swagger
  * /api/employees:
  *   post:
- *     summary: Create a new employee
+ *     summary: Create a new employee (Admin only)
  *     tags: [Employees]
  *     security:
  *       - cookieAuth: []   # 🔐 TOKEN REQUIRED
@@ -47,12 +48,12 @@ router.get("/", controller.getEmployees);
  *       401:
  *         description: Unauthorized
  */
-router.post("/", auth, validate, controller.createEmployee);
+router.post("/", auth, role("ADMIN"), validate, controller.createEmployee);
 /**
  * @swagger
  * /api/employees/{id}:
  *   get:
- *     summary: Get employee by ID
+ *     summary: Get employee by ID (not require role)
  *     tags: [Employees]
  *     parameters:
  *       - in: path
@@ -72,7 +73,7 @@ router.get("/:id", controller.getEmployeeById);
  * @swagger
  * /api/employees/{id}:
  *   put:
- *     summary: Update employee by ID
+ *     summary: Update employee by ID (Admin only)
  *     tags: [Employees]
  *     parameters:
  *       - in: path
@@ -102,6 +103,7 @@ router.get("/:id", controller.getEmployeeById);
 router.put(
   "/:id",
   auth,
+  role("ADMIN"),
   validator.updateEmployeeValidator,
   validate,
   controller.updateEmployee
@@ -111,7 +113,7 @@ router.put(
  * @swagger
  * /api/employees/{id}:
  *   delete:
- *     summary: Delete employee by ID
+ *     summary: Delete employee by ID (Admin only)
  *     tags: [Employees]
  *     parameters:
  *       - in: path
@@ -123,6 +125,6 @@ router.put(
  *       200:
  *         description: Employee deleted successfully
  */
-router.delete("/:id", auth, controller.deleteEmployee);
+router.delete("/:id", auth, role("ADMIN"), controller.deleteEmployee);
 
 module.exports = router;

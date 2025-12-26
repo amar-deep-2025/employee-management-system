@@ -20,3 +20,4 @@ exports.loginUser = async (email, password) => {
 
   return user;
 };
+

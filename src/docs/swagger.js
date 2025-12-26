@@ -4,16 +4,22 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Employee management api",
+      title: "Employee Management API",
       version: "1.0.0",
-      description: "Employee CRUD REST API",
     },
-    servers: [
-      {
-        url: "http://localhost:5000",
+
+    // 🔐 SECURITY DEFINITION
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "token",
+        },
       },
-    ],
+    },
   },
+
   apis: ["./src/routes/*.js"],
 };
 

@@ -19,11 +19,25 @@ exports.login = async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
+      secure: false,
+      path: "/",
     });
 
     res.json({ message: "Login successful", token: token });
   } catch (err) {
     next(err);
   }
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    path: "/", //localhost
+  });
+  return res.status(200).json({
+    message: "Logout successful",
+  });
 };

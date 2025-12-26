@@ -73,4 +73,17 @@ router.post("/register", controller.register);
  */
 router.post("/login", controller.login);
 
+/**
+ *  @Swagger
+ * /api/auth/logout:
+ * post:
+ *      summary:Logout user(clear JWT cookie)
+ * tags: [Auth]
+ * responses:
+ *  200:
+ *   description:
+ *  Logout successful
+ */
+router.post("/logout", controller.logout);
+
 module.exports = router;
